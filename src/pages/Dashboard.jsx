@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { listarTickets } from '../api/ticketService';
-import { useAuth } from '../context/AuthContext';
+import Layout from '../components/Layout';
 import TicketCard from '../components/TicketCard';
 
 export default function Dashboard() {
   const [tickets, setTickets] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
-  const { usuario, cerrarSesion } = useAuth();
 
   useEffect(() => {
     const cargarTickets = async () => {
@@ -25,29 +24,28 @@ export default function Dashboard() {
     cargarTickets();
   }, []);
 
-  if (cargando) return <p>Cargando tickets...</p>;
-
   return (
-    <div className="dashboard-container">
-      <header className="dashboard-header">
-        <h1>Tickets de soporte</h1>
-        <div>
-          <span>{usuario.email} ({usuario.rol})</span>
-          <button onClick={cerrarSesion}>Cerrar sesión</button>
+    <Layout>
+      <div className="page">
+        <div className="page-header">
+          <h1>Tickets de soporte</h1>
+          <Link to="/tickets/nuevo" className="btn btn-primary">+ Nuevo ticket</Link>
         </div>
-      </header>
 
-      <Link to="/tickets/nuevo" className="btn-crear">+ Nuevo ticket</Link>
+        {error && <p className="page-error">{error}</p>}
 
-      {error && <p className="error">{error}</p>}
-
-      <div className="ticket-list">
-        {tickets.length === 0 ? (
-          <p>No hay tickets registrados.</p>
+        {cargando ? (
+          <p style={{ color: 'var(--text-muted)' }}>Cargando...</p>
+        ) : tickets.length === 0 ? (
+          <div className="empty-state">No hay tickets registrados todavía.</div>
         ) : (
-          tickets.map((ticket) => <TicketCard key={ticket.id} ticket={ticket} />)
+          <div className="ticket-list">
+            {tickets.map((ticket) => (
+              <TicketCard key={ticket.id} ticket={ticket} />
+            ))}
+          </div>
         )}
       </div>
-    </div>
+    </Layout>
   );
 }

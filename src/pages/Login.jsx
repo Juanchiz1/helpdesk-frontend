@@ -24,26 +24,34 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container">
-      <h1>Iniciar sesión</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {error && <p className="error">{error}</p>}
-        <button type="submit">Entrar</button>
-      </form>
+    <div className="login-screen">
+      <div className="login-panel">
+        <div className="topbar-mark">HD</div>
+        <h1>Helpdesk</h1>
+        <p className="subtitle">Inicia sesión para ver tus tickets</p>
+        <form onSubmit={handleSubmit}>
+          <div className="field">
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="field">
+            <label>Contraseña</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          {error && <p className="page-error">{error}</p>}
+          <button type="submit" className="btn btn-primary">Entrar</button>
+        </form>
+      </div>
     </div>
   );
 }

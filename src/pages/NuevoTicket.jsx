@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { crearTicket } from '../api/ticketService';
 import { obtenerUsuarioActual } from '../api/authService';
+import Layout from '../components/Layout';
 
 export default function NuevoTicket() {
   const [titulo, setTitulo] = useState('');
@@ -24,30 +25,41 @@ export default function NuevoTicket() {
   };
 
   return (
-    <div className="nuevo-ticket-container">
-      <h1>Nuevo ticket</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Título"
-          value={titulo}
-          onChange={(e) => setTitulo(e.target.value)}
-          required
-        />
-        <textarea
-          placeholder="Describe el problema"
-          value={descripcion}
-          onChange={(e) => setDescripcion(e.target.value)}
-          required
-        />
-        <select value={prioridad} onChange={(e) => setPrioridad(e.target.value)}>
-          <option value="BAJA">Baja</option>
-          <option value="MEDIA">Media</option>
-          <option value="ALTA">Alta</option>
-        </select>
-        {error && <p className="error">{error}</p>}
-        <button type="submit">Crear ticket</button>
-      </form>
-    </div>
+    <Layout>
+      <div className="page" style={{ maxWidth: 520 }}>
+        <div className="page-header">
+          <h1>Nuevo ticket</h1>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="field">
+            <label>Título</label>
+            <input
+              type="text"
+              value={titulo}
+              onChange={(e) => setTitulo(e.target.value)}
+              required
+            />
+          </div>
+          <div className="field">
+            <label>Descripción</label>
+            <textarea
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+              required
+            />
+          </div>
+          <div className="field">
+            <label>Prioridad</label>
+            <select value={prioridad} onChange={(e) => setPrioridad(e.target.value)}>
+              <option value="BAJA">Baja</option>
+              <option value="MEDIA">Media</option>
+              <option value="ALTA">Alta</option>
+            </select>
+          </div>
+          {error && <p className="page-error">{error}</p>}
+          <button type="submit" className="btn btn-primary">Crear ticket</button>
+        </form>
+      </div>
+    </Layout>
   );
 }

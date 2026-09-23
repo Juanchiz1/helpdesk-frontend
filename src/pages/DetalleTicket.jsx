@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { buscarTicketPorId, cambiarEstadoTicket } from '../api/ticketService';
 import { listarComentarios, agregarComentario } from '../api/comentarioService';
 import { obtenerUsuarioActual } from '../api/authService';
+import Layout from '../components/Layout';
 
 export default function DetalleTicket() {
   const { id } = useParams();
@@ -55,56 +56,64 @@ export default function DetalleTicket() {
     }
   };
 
-  if (cargando) return <p>Cargando...</p>;
-  if (!ticket) return <p>Ticket no encontrado</p>;
+  if (cargando) return <Layout><div className="page">Cargando...</div></Layout>;
+  if (!ticket) return <Layout><div className="page">Ticket no encontrado</div></Layout>;
 
   return (
-    <div className="detalle-ticket-container">
-      <button onClick={() => navigate('/dashboard')}>← Volver</button>
+    <Layout>
+      <div className="page">
+        <button className="back-link" onClick={() => navigate('/dashboard')}>
+          ← Volver
+        </button>
 
-      <h1>{ticket.titulo}</h1>
-      <p>{ticket.descripcion}</p>
-      <div className="ticket-info">
-        <span>Estado: {ticket.estado}</span>
-        <span>Prioridad: {ticket.prioridad}</span>
-        <span>Cliente: {ticket.clienteNombre}</span>
-        {ticket.agenteNombre && <span>Agente: {ticket.agenteNombre}</span>}
+        <div className="ticket-detail-header">
+          <span className={`badge badge-${ticket.estado}`}>{ticket.estado}</span>
+          <h1>{ticket.titulo}</h1>
+          <p className="ticket-detail-desc">{ticket.descripcion}</p>
+          <div className="ticket-detail-meta">
+            <span>#{ticket.id}</span>
+            <span>prioridad: {ticket.prioridad}</span>
+            <span>cliente: {ticket.clienteNombre}</span>
+            {ticket.agenteNombre && <span>agente: {ticket.agenteNombre}</span>}
+          </div>
+          <div className="ticket-detail-estado">
+            <label>Cambiar estado</label>
+            <select value={ticket.estado} onChange={(e) => handleCambiarEstado(e.target.value)}>
+              <option value="ABIERTO">Abierto</option>
+              <option value="EN_PROGRESO">En progreso</option>
+              <option value="RESUELTO">Resuelto</option>
+              <option value="CERRADO">Cerrado</option>
+            </select>
+          </div>
+        </div>
+
+        <h2 className="section-title">Comentarios</h2>
+        <div className="comentarios-list">
+          {comentarios.length === 0 ? (
+            <div className="empty-state">Sin comentarios todavía.</div>
+          ) : (
+            comentarios.map((c) => (
+              <div key={c.id} className="comentario">
+                <div className="comentario-header">
+                  <span className="comentario-autor">{c.autorNombre}</span>
+                </div>
+                <p>{c.contenido}</p>
+              </div>
+            ))
+          )}
+        </div>
+
+        <form onSubmit={handleComentar} className="comentario-form">
+          <textarea
+            placeholder="Escribe un comentario..."
+            value={nuevoComentario}
+            onChange={(e) => setNuevoComentario(e.target.value)}
+          />
+          <button type="submit" className="btn btn-primary">Comentar</button>
+        </form>
+
+        {error && <p className="page-error">{error}</p>}
       </div>
-
-      <div className="cambiar-estado">
-        <label>Cambiar estado: </label>
-        <select value={ticket.estado} onChange={(e) => handleCambiarEstado(e.target.value)}>
-          <option value="ABIERTO">Abierto</option>
-          <option value="EN_PROGRESO">En progreso</option>
-          <option value="RESUELTO">Resuelto</option>
-          <option value="CERRADO">Cerrado</option>
-        </select>
-      </div>
-
-      <h2>Comentarios</h2>
-      <div className="comentarios-list">
-        {comentarios.length === 0 ? (
-          <p>Sin comentarios todavía.</p>
-        ) : (
-          comentarios.map((c) => (
-            <div key={c.id} className="comentario">
-              <strong>{c.autorNombre}</strong>
-              <p>{c.contenido}</p>
-            </div>
-          ))
-        )}
-      </div>
-
-      <form onSubmit={handleComentar} className="comentario-form">
-        <textarea
-          placeholder="Escribe un comentario..."
-          value={nuevoComentario}
-          onChange={(e) => setNuevoComentario(e.target.value)}
-        />
-        <button type="submit">Comentar</button>
-      </form>
-
-      {error && <p className="error">{error}</p>}
-    </div>
+    </Layout>
   );
 }
