@@ -14,3 +14,8 @@ export const buscarTicketPorId = async (id) => {
   const response = await api.get(`/tickets/${id}`);
   return response.data;
 };
+
+export const cambiarEstadoTicket = async (id, estado) => {
+  const response = await api.patch(`/tickets/${id}/estado`, { estado });
+  return response.data;
+};
