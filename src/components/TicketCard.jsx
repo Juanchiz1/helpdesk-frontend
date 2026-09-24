@@ -2,7 +2,10 @@ import { Link } from 'react-router-dom';
 
 export default function TicketCard({ ticket }) {
   return (
-    <Link to={`/tickets/${ticket.id}`} className="ticket-row" data-prioridad={ticket.prioridad}>
+    <Link to={`/tickets/${ticket.id}`} className="ticket-row">
+      <div className="ticket-stub" data-prioridad={ticket.prioridad}>
+        #{ticket.id}
+      </div>
       <div className="ticket-row-body">
         <div className="ticket-row-top">
           <h3>{ticket.titulo}</h3>
@@ -10,7 +13,6 @@ export default function TicketCard({ ticket }) {
         </div>
         <p className="ticket-row-desc">{ticket.descripcion}</p>
         <div className="ticket-row-meta">
-          <span>#{ticket.id}</span>
           <span>{ticket.clienteNombre}</span>
           {ticket.agenteNombre && <span>→ {ticket.agenteNombre}</span>}
         </div>

@@ -98,6 +98,15 @@ a {
   display: flex;
   align-items: center;
   gap: 14px;
+  flex-shrink: 0;
+}
+
+.topbar {
+  gap: 16px;
+}
+
+.topbar-brand {
+  min-width: 0;
 }
 
 .topbar-user-info {
@@ -251,6 +260,34 @@ form .btn {
 
 /* ---------- Lista de tickets ---------- */
 
+.filtros-estado {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.filtro-tab {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-family: var(--font-mono);
+  padding: 6px 11px;
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.filtro-tab:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+
+.filtro-tab.activo {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .ticket-list {
   display: flex;
   flex-direction: column;
@@ -262,10 +299,7 @@ form .btn {
 
 .ticket-row {
   display: flex;
-  gap: 14px;
-  padding: 16px 18px;
   background: var(--surface);
-  border-left: 3px solid transparent;
   transition: background 0.12s ease;
 }
 
@@ -277,13 +311,37 @@ form .btn {
   background: var(--surface-hover);
 }
 
-.ticket-row[data-prioridad="ALTA"] { border-left-color: var(--prioridad-alta); }
-.ticket-row[data-prioridad="MEDIA"] { border-left-color: var(--prioridad-media); }
-.ticket-row[data-prioridad="BAJA"] { border-left-color: var(--prioridad-baja); }
+.ticket-stub {
+  flex-shrink: 0;
+  width: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 19px;
+  font-weight: 600;
+  border-right: 1px dashed var(--border);
+}
+
+.ticket-stub[data-prioridad="ALTA"] {
+  background: rgba(232, 96, 76, 0.08);
+  color: var(--prioridad-alta);
+}
+
+.ticket-stub[data-prioridad="MEDIA"] {
+  background: rgba(232, 163, 61, 0.08);
+  color: var(--prioridad-media);
+}
+
+.ticket-stub[data-prioridad="BAJA"] {
+  background: rgba(92, 122, 153, 0.1);
+  color: var(--prioridad-baja);
+}
 
 .ticket-row-body {
   flex: 1;
   min-width: 0;
+  padding: 16px 18px;
 }
 
 .ticket-row-top {
