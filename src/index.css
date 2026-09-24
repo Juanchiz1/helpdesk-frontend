@@ -422,16 +422,82 @@ form .btn {
 
 /* ---------- Detalle de ticket ---------- */
 
-.ticket-detail-header {
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 20px;
-  margin-bottom: 24px;
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-family: var(--font-mono);
+  margin-bottom: 20px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
 }
 
-.ticket-detail-header h1 {
+.back-link:hover {
+  color: var(--text);
+}
+
+.ticket-detail {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.ticket-detail-stub {
+  flex-shrink: 0;
+  width: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  border-right: 1px dashed var(--border);
+  padding: 20px 0;
+}
+
+.ticket-detail-stub[data-prioridad="ALTA"] {
+  background: rgba(232, 96, 76, 0.08);
+  color: var(--prioridad-alta);
+}
+
+.ticket-detail-stub[data-prioridad="MEDIA"] {
+  background: rgba(232, 163, 61, 0.08);
+  color: var(--prioridad-media);
+}
+
+.ticket-detail-stub[data-prioridad="BAJA"] {
+  background: rgba(92, 122, 153, 0.1);
+  color: var(--prioridad-baja);
+}
+
+.ticket-detail-stub .stub-id {
   font-size: 22px;
   font-weight: 600;
-  margin: 14px 0 10px;
+}
+
+.ticket-detail-stub .stub-prioridad {
+  font-size: 10px;
+  text-transform: lowercase;
+  opacity: 0.85;
+}
+
+.ticket-detail-body {
+  flex: 1;
+  min-width: 0;
+  padding: 20px 22px;
+  background: var(--surface);
+}
+
+.ticket-detail-body h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 10px;
 }
 
 .ticket-detail-desc {
@@ -444,17 +510,26 @@ form .btn {
 .ticket-detail-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
+  align-items: center;
+  gap: 16px;
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--text-faint);
-  margin-bottom: 14px;
+}
+
+.ticket-detail-meta .divider {
+  width: 1px;
+  height: 12px;
+  background: var(--border);
 }
 
 .ticket-detail-estado {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 18px;
+  padding: 14px 22px;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
 }
 
 .ticket-detail-estado label {
@@ -464,52 +539,61 @@ form .btn {
 
 .ticket-detail-estado select {
   width: auto;
-}
-
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--text-muted);
+  padding: 7px 10px;
   font-size: 13px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.back-link:hover {
-  color: var(--text);
 }
 
 .section-title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin: 28px 0 14px;
+  letter-spacing: 0.07em;
+  margin: 32px 0 14px;
 }
 
 .comentarios-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 24px;
 }
 
 .comentario {
+  display: flex;
+  gap: 12px;
+  padding: 13px 14px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 12px 14px;
+}
+
+.comentario-avatar {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius);
+  background: var(--surface-hover);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.comentario-content {
+  flex: 1;
+  min-width: 0;
 }
 
 .comentario-header {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 6px;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
 }
 
 .comentario-autor {
@@ -517,13 +601,7 @@ form .btn {
   font-weight: 500;
 }
 
-.comentario-fecha {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-faint);
-}
-
-.comentario p {
+.comentario-content p {
   margin: 0;
   font-size: 13px;
   color: var(--text-muted);
@@ -532,11 +610,17 @@ form .btn {
 
 .comentario-form {
   display: flex;
-  flex-direction: column;
   gap: 10px;
+  align-items: flex-start;
+}
+
+.comentario-form textarea {
+  flex: 1;
+  min-height: 64px;
 }
 
 .comentario-form .btn {
-  align-self: flex-end;
   width: auto;
+  margin-top: 0;
+  flex-shrink: 0;
 }

@@ -5,6 +5,14 @@ import { listarComentarios, agregarComentario } from '../api/comentarioService';
 import { obtenerUsuarioActual } from '../api/authService';
 import Layout from '../components/Layout';
 
+const iniciales = (nombre) =>
+  nombre
+    .split(' ')
+    .map((p) => p[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+
 export default function DetalleTicket() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -63,41 +71,50 @@ export default function DetalleTicket() {
     <Layout>
       <div className="page">
         <button className="back-link" onClick={() => navigate('/dashboard')}>
-          ← Volver
+          ← volver al listado
         </button>
 
-        <div className="ticket-detail-header">
-          <span className={`badge badge-${ticket.estado}`}>{ticket.estado}</span>
-          <h1>{ticket.titulo}</h1>
-          <p className="ticket-detail-desc">{ticket.descripcion}</p>
-          <div className="ticket-detail-meta">
-            <span>#{ticket.id}</span>
-            <span>prioridad: {ticket.prioridad}</span>
-            <span>cliente: {ticket.clienteNombre}</span>
-            {ticket.agenteNombre && <span>agente: {ticket.agenteNombre}</span>}
+        <div className="ticket-detail">
+          <div className="ticket-detail-stub" data-prioridad={ticket.prioridad}>
+            <span className="stub-id">#{ticket.id}</span>
+            <span className="stub-prioridad">{ticket.prioridad}</span>
           </div>
-          <div className="ticket-detail-estado">
-            <label>Cambiar estado</label>
-            <select value={ticket.estado} onChange={(e) => handleCambiarEstado(e.target.value)}>
-              <option value="ABIERTO">Abierto</option>
-              <option value="EN_PROGRESO">En progreso</option>
-              <option value="RESUELTO">Resuelto</option>
-              <option value="CERRADO">Cerrado</option>
-            </select>
+          <div className="ticket-detail-body">
+            <span className={`badge badge-${ticket.estado}`}>{ticket.estado}</span>
+            <h1 style={{ marginTop: 10 }}>{ticket.titulo}</h1>
+            <p className="ticket-detail-desc">{ticket.descripcion}</p>
+            <div className="ticket-detail-meta">
+              <span>cliente: {ticket.clienteNombre}</span>
+              <span className="divider" />
+              <span>agente: {ticket.agenteNombre || 'sin asignar'}</span>
+            </div>
           </div>
         </div>
 
-        <h2 className="section-title">Comentarios</h2>
+        <div className="ticket-detail-estado">
+          <label>Cambiar estado</label>
+          <select value={ticket.estado} onChange={(e) => handleCambiarEstado(e.target.value)}>
+            <option value="ABIERTO">Abierto</option>
+            <option value="EN_PROGRESO">En progreso</option>
+            <option value="RESUELTO">Resuelto</option>
+            <option value="CERRADO">Cerrado</option>
+          </select>
+        </div>
+
+        <h2 className="section-title">Comentarios ({comentarios.length})</h2>
         <div className="comentarios-list">
           {comentarios.length === 0 ? (
             <div className="empty-state">Sin comentarios todavía.</div>
           ) : (
             comentarios.map((c) => (
               <div key={c.id} className="comentario">
-                <div className="comentario-header">
-                  <span className="comentario-autor">{c.autorNombre}</span>
+                <div className="comentario-avatar">{iniciales(c.autorNombre)}</div>
+                <div className="comentario-content">
+                  <div className="comentario-header">
+                    <span className="comentario-autor">{c.autorNombre}</span>
+                  </div>
+                  <p>{c.contenido}</p>
                 </div>
-                <p>{c.contenido}</p>
               </div>
             ))
           )}
