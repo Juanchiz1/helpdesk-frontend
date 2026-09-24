@@ -281,6 +281,23 @@ form .btn {
   margin-bottom: 18px;
 }
 
+.controles-lista {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.buscador {
+  flex: 1;
+  min-width: 200px;
+}
+
+.select-prioridad {
+  width: auto;
+  min-width: 140px;
+}
+
 .filtro-tab {
   background: transparent;
   border: 1px solid var(--border);

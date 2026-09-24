@@ -8,7 +8,9 @@ const ESTADOS = ['TODOS', 'ABIERTO', 'EN_PROGRESO', 'RESUELTO', 'CERRADO'];
 
 export default function Dashboard() {
   const [tickets, setTickets] = useState([]);
-  const [filtro, setFiltro] = useState('TODOS');
+  const [filtroEstado, setFiltroEstado] = useState('TODOS');
+  const [filtroPrioridad, setFiltroPrioridad] = useState('TODAS');
+  const [busqueda, setBusqueda] = useState('');
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
 
@@ -27,8 +29,17 @@ export default function Dashboard() {
     cargarTickets();
   }, []);
 
-  const ticketsFiltrados =
-    filtro === 'TODOS' ? tickets : tickets.filter((t) => t.estado === filtro);
+  const ticketsFiltrados = tickets
+    .filter((t) => filtroEstado === 'TODOS' || t.estado === filtroEstado)
+    .filter((t) => filtroPrioridad === 'TODAS' || t.prioridad === filtroPrioridad)
+    .filter((t) => {
+      const texto = busqueda.trim().toLowerCase();
+      if (!texto) return true;
+      return (
+        t.titulo.toLowerCase().includes(texto) ||
+        t.descripcion.toLowerCase().includes(texto)
+      );
+    });
 
   const contar = (estado) =>
     estado === 'TODOS' ? tickets.length : tickets.filter((t) => t.estado === estado).length;
@@ -43,12 +54,32 @@ export default function Dashboard() {
 
         {error && <p className="page-error">{error}</p>}
 
+        <div className="controles-lista">
+          <input
+            type="text"
+            className="buscador"
+            placeholder="Buscar por título o descripción..."
+            value={busqueda}
+            onChange={(e) => setBusqueda(e.target.value)}
+          />
+          <select
+            className="select-prioridad"
+            value={filtroPrioridad}
+            onChange={(e) => setFiltroPrioridad(e.target.value)}
+          >
+            <option value="TODAS">Toda prioridad</option>
+            <option value="ALTA">Alta</option>
+            <option value="MEDIA">Media</option>
+            <option value="BAJA">Baja</option>
+          </select>
+        </div>
+
         <div className="filtros-estado">
           {ESTADOS.map((estado) => (
             <button
               key={estado}
-              className={`filtro-tab ${filtro === estado ? 'activo' : ''}`}
-              onClick={() => setFiltro(estado)}
+              className={`filtro-tab ${filtroEstado === estado ? 'activo' : ''}`}
+              onClick={() => setFiltroEstado(estado)}
             >
               {estado.replace('_', ' ').toLowerCase()} ({contar(estado)})
             </button>
@@ -58,7 +89,7 @@ export default function Dashboard() {
         {cargando ? (
           <p style={{ color: 'var(--text-muted)' }}>Cargando...</p>
         ) : ticketsFiltrados.length === 0 ? (
-          <div className="empty-state">No hay tickets en este estado.</div>
+          <div className="empty-state">No hay tickets que coincidan con los filtros.</div>
         ) : (
           <div className="ticket-list">
             {ticketsFiltrados.map((ticket) => (
