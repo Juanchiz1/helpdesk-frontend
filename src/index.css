@@ -624,3 +624,101 @@ form .btn {
   margin-top: 0;
   flex-shrink: 0;
 }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+  .page {
+    padding: 24px 16px 60px;
+  }
+
+  .topbar {
+    padding: 0 16px;
+  }
+
+  .topbar-brand span {
+    display: none;
+  }
+
+  .topbar-user-info {
+    display: none;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .page-header .btn {
+    width: 100%;
+  }
+
+  .filtros-estado {
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filtro-tab {
+    flex-shrink: 0;
+  }
+
+  .ticket-stub {
+    width: 48px;
+    font-size: 15px;
+  }
+
+  .ticket-row-desc {
+    white-space: normal;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .ticket-detail {
+    flex-direction: column;
+  }
+
+  .ticket-detail-stub {
+    flex-direction: row;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px dashed var(--border);
+    padding: 12px 0;
+  }
+
+  .ticket-detail-estado {
+    flex-wrap: wrap;
+  }
+
+  .comentario-form {
+    flex-direction: column;
+  }
+
+  .comentario-form .btn {
+    width: 100%;
+  }
+
+  .login-panel {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 420px) {
+  .ticket-row-meta {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .ticket-detail-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .ticket-detail-meta .divider {
+    display: none;
+  }
+}
