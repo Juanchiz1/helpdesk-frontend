@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../api/authService';
 import { useAuth } from '../context/AuthContext';
+
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -51,6 +52,9 @@ export default function Login() {
           {error && <p className="page-error">{error}</p>}
           <button type="submit" className="btn btn-primary">Entrar</button>
         </form>
+          <p className="login-footer">
+          ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
+        </p>
       </div>
     </div>
   );

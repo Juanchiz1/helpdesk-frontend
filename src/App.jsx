@@ -4,6 +4,9 @@ import Dashboard from './pages/Dashboard';
 import NuevoTicket from './pages/NuevoTicket';
 import DetalleTicket from './pages/DetalleTicket';
 import RutaProtegida from './routes/RutaProtegida';
+import Registro from './pages/Registro';
+
+
 
 function App() {
   return (
@@ -17,6 +20,7 @@ function App() {
           </RutaProtegida>
         }
       />
+<Route path="/registro" element={<Registro />} />
       <Route
         path="/tickets/nuevo"
         element={

@@ -14,3 +14,4 @@ export const obtenerUsuarioActual = async () => {
   const response = await api.get('/usuarios/me');
   return response.data;
 };
+
