@@ -15,3 +15,7 @@ export const obtenerUsuarioActual = async () => {
   return response.data;
 };
 
+export const listarAgentes = async () => {
+  const response = await api.get('/usuarios/agentes');
+  return response.data;
+};

@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { listarTickets } from '../api/ticketService';
+import { listarTickets, listarMisTickets } from '../api/ticketService';
+import { useAuth } from '../context/AuthContext';
 import Layout from '../components/Layout';
 import TicketCard from '../components/TicketCard';
 
 const ESTADOS = ['TODOS', 'ABIERTO', 'EN_PROGRESO', 'RESUELTO', 'CERRADO'];
 
 export default function Dashboard() {
+  const { usuario } = useAuth();
+  const [vista, setVista] = useState('todos');
   const [tickets, setTickets] = useState([]);
   const [filtroEstado, setFiltroEstado] = useState('TODOS');
   const [filtroPrioridad, setFiltroPrioridad] = useState('TODAS');
@@ -16,8 +19,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     const cargarTickets = async () => {
+      setCargando(true);
+      setError('');
       try {
-        const datos = await listarTickets();
+        const datos = vista === 'mios' ? await listarMisTickets() : await listarTickets();
         setTickets(datos);
       } catch (err) {
         setError('No se pudieron cargar los tickets');
@@ -27,7 +32,7 @@ export default function Dashboard() {
     };
 
     cargarTickets();
-  }, []);
+  }, [vista]);
 
   const ticketsFiltrados = tickets
     .filter((t) => filtroEstado === 'TODOS' || t.estado === filtroEstado)
@@ -44,12 +49,29 @@ export default function Dashboard() {
   const contar = (estado) =>
     estado === 'TODOS' ? tickets.length : tickets.filter((t) => t.estado === estado).length;
 
+  const etiquetaMios = usuario?.rol === 'AGENTE' ? 'Asignados a mí' : 'Mis tickets';
+
   return (
     <Layout>
       <div className="page">
         <div className="page-header">
           <h1>Tickets de soporte</h1>
           <Link to="/tickets/nuevo" className="btn btn-primary">+ Nuevo ticket</Link>
+        </div>
+
+        <div className="nav-tabs">
+          <button
+            className={`nav-tab ${vista === 'todos' ? 'activo' : ''}`}
+            onClick={() => setVista('todos')}
+          >
+            Todos los tickets
+          </button>
+          <button
+            className={`nav-tab ${vista === 'mios' ? 'activo' : ''}`}
+            onClick={() => setVista('mios')}
+          >
+            {etiquetaMios}
+          </button>
         </div>
 
         {error && <p className="page-error">{error}</p>}

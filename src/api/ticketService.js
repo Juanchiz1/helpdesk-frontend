@@ -19,3 +19,13 @@ export const cambiarEstadoTicket = async (id, estado) => {
   const response = await api.patch(`/tickets/${id}/estado`, { estado });
   return response.data;
 };
+
+export const asignarAgente = async (ticketId, agenteId) => {
+  const response = await api.patch(`/tickets/${ticketId}/asignar/${agenteId}`);
+  return response.data;
+};
+
+export const listarMisTickets = async () => {
+  const response = await api.get('/tickets/mis-tickets');
+  return response.data;
+};

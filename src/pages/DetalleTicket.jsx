@@ -4,6 +4,8 @@ import { buscarTicketPorId, cambiarEstadoTicket } from '../api/ticketService';
 import { listarComentarios, agregarComentario } from '../api/comentarioService';
 import { obtenerUsuarioActual } from '../api/authService';
 import Layout from '../components/Layout';
+import { listarAgentes } from '../api/authService';
+import { asignarAgente } from '../api/ticketService';
 
 const iniciales = (nombre) =>
   nombre
@@ -21,6 +23,7 @@ export default function DetalleTicket() {
   const [nuevoComentario, setNuevoComentario] = useState('');
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
+  const [agentes, setAgentes] = useState([]);
 
   const cargarDatos = async () => {
     try {
@@ -37,9 +40,10 @@ export default function DetalleTicket() {
     }
   };
 
-  useEffect(() => {
-    cargarDatos();
-  }, [id]);
+ useEffect(() => {
+  cargarDatos();
+  listarAgentes().then(setAgentes).catch(() => {});
+}, [id]);
 
   const handleComentar = async (e) => {
     e.preventDefault();
@@ -63,6 +67,16 @@ export default function DetalleTicket() {
       setError('No se pudo cambiar el estado');
     }
   };
+
+  const handleAsignar = async (agenteId) => {
+  if (!agenteId) return;
+  try {
+    await asignarAgente(id, agenteId);
+    cargarDatos();
+  } catch (err) {
+    setError('No se pudo asignar el agente');
+  }
+};
 
   if (cargando) return <Layout><div className="page">Cargando...</div></Layout>;
   if (!ticket) return <Layout><div className="page">Ticket no encontrado</div></Layout>;
@@ -100,6 +114,21 @@ export default function DetalleTicket() {
             <option value="CERRADO">Cerrado</option>
           </select>
         </div>
+
+        <div className="ticket-detail-asignar">
+  <label>Asignar agente</label>
+  <select
+    value={ticket.agenteId || ''}
+    onChange={(e) => handleAsignar(e.target.value)}
+  >
+    <option value="">Sin asignar</option>
+    {agentes.map((agente) => (
+      <option key={agente.id} value={agente.id}>
+        {agente.nombre}
+      </option>
+    ))}
+  </select>
+</div>
 
         <h2 className="section-title">Comentarios ({comentarios.length})</h2>
         <div className="comentarios-list">
