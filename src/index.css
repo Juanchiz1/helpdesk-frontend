@@ -857,3 +857,45 @@ form .btn {
   text-align: center;
   color: var(--text-muted);
 }
+
+/* ---------- SLA vencido ---------- */
+
+@keyframes pulso-sla {
+  0%, 100% { border-left-color: var(--estado-abierto); }
+  50% { border-left-color: transparent; }
+}
+
+.ticket-row.sla-vencido {
+  border-left: 3px solid var(--estado-abierto);
+  animation: pulso-sla 2s ease-in-out infinite;
+}
+
+.badge-sla {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  background: rgba(232, 96, 76, 0.18);
+  color: var(--estado-abierto);
+  white-space: nowrap;
+}
+
+.badge-sla::before {
+  content: '●';
+  font-size: 8px;
+}
+
+.sla-restante {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+.sla-restante.urgente {
+  color: var(--estado-abierto);
+}

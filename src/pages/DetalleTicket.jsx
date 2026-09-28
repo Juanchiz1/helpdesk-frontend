@@ -6,6 +6,7 @@ import { obtenerUsuarioActual } from '../api/authService';
 import Layout from '../components/Layout';
 import { listarAgentes } from '../api/authService';
 import { asignarAgente } from '../api/ticketService';
+import { calcularSlaVencido } from '../utils/sla';
 
 const iniciales = (nombre) =>
   nombre
@@ -78,6 +79,8 @@ export default function DetalleTicket() {
   }
 };
 
+const vencido = ticket && calcularSlaVencido(ticket);
+
   if (cargando) return <Layout><div className="page">Cargando...</div></Layout>;
   if (!ticket) return <Layout><div className="page">Ticket no encontrado</div></Layout>;
 
@@ -95,6 +98,7 @@ export default function DetalleTicket() {
           </div>
           <div className="ticket-detail-body">
             <span className={`badge badge-${ticket.estado}`}>{ticket.estado}</span>
+            {vencido && <span className="badge-sla" style={{ marginLeft: 8 }}>SLA vencido</span>}
             <h1 style={{ marginTop: 10 }}>{ticket.titulo}</h1>
             <p className="ticket-detail-desc">{ticket.descripcion}</p>
             <div className="ticket-detail-meta">
