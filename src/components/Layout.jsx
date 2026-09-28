@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Layout({ children }) {
@@ -19,6 +19,9 @@ export default function Layout({ children }) {
         </div>
         {usuario && (
           <div className="topbar-user">
+            {usuario.rol === 'ADMIN' && (
+              <Link to="/usuarios" className="btn btn-ghost">Usuarios</Link>
+            )}
             <div className="topbar-user-info">
               <span className="topbar-user-email">{usuario.email}</span>
               <span className="topbar-user-rol">{usuario.rol}</span>

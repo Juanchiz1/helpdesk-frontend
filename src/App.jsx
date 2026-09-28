@@ -5,6 +5,7 @@ import NuevoTicket from './pages/NuevoTicket';
 import DetalleTicket from './pages/DetalleTicket';
 import RutaProtegida from './routes/RutaProtegida';
 import Registro from './pages/Registro';
+import Usuarios from './pages/Usuarios';
 
 
 
@@ -38,6 +39,14 @@ function App() {
         }
       />
       <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route
+  path="/usuarios"
+  element={
+    <RutaProtegida>
+      <Usuarios />
+    </RutaProtegida>
+  }
+/>
     </Routes>
   );
 }

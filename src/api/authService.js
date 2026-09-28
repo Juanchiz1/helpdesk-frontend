@@ -19,3 +19,13 @@ export const listarAgentes = async () => {
   const response = await api.get('/usuarios/agentes');
   return response.data;
 };
+
+export const listarUsuarios = async () => {
+  const response = await api.get('/usuarios');
+  return response.data;
+};
+
+export const cambiarEstadoActivo = async (id, activo) => {
+  const response = await api.patch(`/usuarios/${id}/activo`, { activo });
+  return response.data;
+};
