@@ -13,24 +13,25 @@ export default function Layout({ children }) {
   return (
     <div>
       <header className="topbar">
-        <div className="topbar-brand">
-          <div className="topbar-mark">HD</div>
-          <span>Helpdesk</span>
-        </div>
+        <Link to="/dashboard" className="topbar-brand">
+  <div className="topbar-mark">HD</div>
+  <span>Helpdesk</span>
+</Link>
         {usuario && (
-          <div className="topbar-user">
-            {usuario.rol === 'ADMIN' && (
-              <Link to="/usuarios" className="btn btn-ghost">Usuarios</Link>
-            )}
-            <div className="topbar-user-info">
-              <span className="topbar-user-email">{usuario.email}</span>
-              <span className="topbar-user-rol">{usuario.rol}</span>
-            </div>
-            <button className="btn btn-ghost" onClick={handleCerrarSesion}>
-              Cerrar sesión
-            </button>
-          </div>
-        )}
+  <div className="topbar-user">
+    <Link to="/metricas" className="btn btn-ghost">Métricas</Link>
+    {usuario.rol === 'ADMIN' && (
+      <Link to="/usuarios" className="btn btn-ghost">Usuarios</Link>
+    )}
+    <div className="topbar-user-info">
+      <span className="topbar-user-email">{usuario.email}</span>
+      <span className="topbar-user-rol">{usuario.rol}</span>
+    </div>
+    <button className="btn btn-ghost" onClick={handleCerrarSesion}>
+      Cerrar sesión
+    </button>
+  </div>
+)}
       </header>
       <main>{children}</main>
     </div>

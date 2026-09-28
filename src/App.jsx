@@ -6,6 +6,7 @@ import DetalleTicket from './pages/DetalleTicket';
 import RutaProtegida from './routes/RutaProtegida';
 import Registro from './pages/Registro';
 import Usuarios from './pages/Usuarios';
+import Metricas from './pages/Metricas';
 
 
 
@@ -21,7 +22,8 @@ function App() {
           </RutaProtegida>
         }
       />
-<Route path="/registro" element={<Registro />} />
+      <Route path="/metricas" element={<Metricas />} />
+      <Route path="/registro" element={<Registro />} />
       <Route
         path="/tickets/nuevo"
         element={
@@ -44,6 +46,14 @@ function App() {
   element={
     <RutaProtegida>
       <Usuarios />
+    </RutaProtegida>
+  }
+/>
+<Route
+  path="/metricas"
+  element={
+    <RutaProtegida>
+      <Metricas />
     </RutaProtegida>
   }
 />

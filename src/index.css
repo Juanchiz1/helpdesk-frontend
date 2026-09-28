@@ -899,3 +899,81 @@ form .btn {
 .sla-restante.urgente {
   color: var(--estado-abierto);
 }
+
+/* ---------- Métricas ---------- */
+
+.metricas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.metrica-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+
+.metrica-card .valor {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.metrica-card .etiqueta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.metrica-card.alerta .valor {
+  color: var(--estado-abierto);
+}
+
+.barra-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.barra-fila {
+  display: grid;
+  grid-template-columns: 110px 1fr 40px;
+  align-items: center;
+  gap: 12px;
+}
+
+.barra-etiqueta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: capitalize;
+}
+
+.barra-track {
+  height: 8px;
+  background: var(--bg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.barra-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.barra-valor {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-faint);
+  text-align: right;
+}
+
+.topbar-brand {
+  cursor: pointer;
+}
