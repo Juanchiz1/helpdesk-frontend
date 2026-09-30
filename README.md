@@ -24,6 +24,20 @@ Interfaz web para el sistema de tickets de soporte técnico. Cliente React que c
 - **CSS puro** — sin frameworks de UI, diseño construido desde cero con variables CSS
 - **IBM Plex Sans / IBM Plex Mono** — tipografía
 
+
+## Demo en vivo
+
+**https://helpdesk-frontend-olive-five.vercel.app**
+
+Backend conectado: [helpdesk-api-springboot](https://github.com/Juanchiz1/helpdesk-api-springboot) (desplegado en Render)
+
+> La primera carga puede tardar 30-50 segundos si el backend estuvo inactivo — está en un plan gratuito que se "duerme" por inactividad. Una vez despierto, responde con normalidad.
+
+Para probarlo, regístrate desde `/registro` (rol Cliente o Agente) o pide credenciales de una cuenta demo.
+
+**Vista en producción, desplegado en Vercel**
+![Producción](docs/screenshots/produccion-dashboard.png)
+
 ## Características
 
 - Login y registro de usuarios (cliente o agente)
